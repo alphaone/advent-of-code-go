@@ -1,6 +1,7 @@
 package dec1
 
 import (
+	"github.com/alphaone/advent/y2018"
 	"testing"
 )
 
@@ -18,7 +19,7 @@ func TestA(t *testing.T) {
 }
 
 func TestSolvePuzzleA(t *testing.T) {
-	actual := SumUp(readInput())
+	actual := SumUp(y2018.ReadFileAsIntSlice("input.txt"))
 	expected := 520
 	if actual != expected {
 		t.Errorf("Expected %v but got %v", expected, actual)
@@ -40,7 +41,7 @@ func TestB(t *testing.T) {
 }
 
 func TestSolvePuzzleB(t *testing.T) {
-	actual := SumUpB(readInput())
+	actual := SumUpB(y2018.ReadFileAsIntSlice("input.txt"))
 	expected := 394
 	if actual != expected {
 		t.Errorf("Expected %v but got %v", expected, actual)
