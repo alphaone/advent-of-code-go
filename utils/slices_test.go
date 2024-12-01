@@ -47,3 +47,8 @@ func TestMakeSequence(t *testing.T) {
 	assert.Equal(t, []int{0, 1, 2, 3, 4}, MakeSequence(0, 5, false))
 	assert.Equal(t, []int{6, 5, 4}, MakeSequence(6, 3, true))
 }
+
+func TestFrequencies(t *testing.T) {
+	assert.Equal(t, map[string]int{"a": 3}, Frequencies([]string{"a", "a", "a"}))
+	assert.Equal(t, map[string]int{"a": 2, "b": 2, "c": 1}, Frequencies([]string{"a", "b", "a", "c", "b"}))
+}

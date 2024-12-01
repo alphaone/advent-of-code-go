@@ -61,3 +61,11 @@ func MakeSequence(start, length int, backwards bool) []int {
 	}
 	return a
 }
+
+func Frequencies[T comparable](xs []T) map[T]int {
+	res := make(map[T]int)
+	for _, x := range xs {
+		res[x] = res[x] + 1
+	}
+	return res
+}

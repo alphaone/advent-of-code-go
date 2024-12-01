@@ -7,6 +7,26 @@ import (
 	"strconv"
 )
 
+func LoadString(filename string) string {
+	file, err := os.Open(filename)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	var result string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		result += scanner.Text() + "\n"
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return result
+}
+
 func LoadStrings(filename string) []string {
 	file, err := os.Open(filename)
 	if err != nil {
