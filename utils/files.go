@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func LoadString(filename string) string {
@@ -66,6 +67,20 @@ func LoadInts(filename string) []int {
 	for _, line := range LoadStrings(filename) {
 		lineInt, _ := strconv.Atoi(line)
 		result = append(result, lineInt)
+	}
+	return result
+}
+
+func LoadIntCols(filename string) [][]int {
+	var result [][]int
+	for _, line := range LoadStrings(filename) {
+		fields := strings.Fields(line)
+		var lineInts []int
+		for _, f := range fields {
+			i, _ := strconv.Atoi(f)
+			lineInts = append(lineInts, i)
+		}
+		result = append(result, lineInts)
 	}
 	return result
 }

@@ -9,6 +9,12 @@ func Insert[T any](a []T, index int, value T) []T {
 	return a
 }
 
+func RemoveIndex[T any](slice []T, index int) []T {
+	ret := make([]T, 0)
+	ret = append(ret, slice[:index]...)
+	return append(ret, slice[index+1:]...)
+}
+
 func Transpose[T any](input [][]T) [][]T {
 	result := make([][]T, len(input[0]))
 	for i := 0; i < len(result); i++ {
