@@ -2,6 +2,8 @@ package day6
 
 import (
 	"errors"
+	"sync"
+	"sync/atomic"
 
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
@@ -147,17 +149,23 @@ func solvePartB(g Grid) int {
 	pos := g.findCoord('^')
 	path := g.pathWalked()
 
-	count := 0
+	var count int64 = 0
+	var wg sync.WaitGroup
 	for _, c := range maps.Keys(path) {
-		if pos.l == c.l && pos.r == c.r {
-			continue
-		}
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			if pos.l == c.l && pos.r == c.r {
+				return
+			}
 
-		altered := g.alterAt(c, '#')
-		if altered.isLoop(pos, Coord{-1, 0}) {
-			count += 1
-		}
+			altered := g.alterAt(c, '#')
+			if altered.isLoop(pos, Coord{-1, 0}) {
+				atomic.AddInt64(&count, 1)
+			}
+		}()
 	}
+	wg.Wait()
 
-	return count
+	return int(count)
 }
