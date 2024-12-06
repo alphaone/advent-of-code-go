@@ -1,10 +1,13 @@
 module github.com/alphaone/advent
 
-go 1.21.3
+go 1.23.0
+
+toolchain go1.23.2
 
 require (
 	github.com/iancoleman/orderedmap v0.3.0
 	github.com/stretchr/testify v1.8.4
+	golang.org/x/exp v0.0.0-20241204233417-43b7b7cde48d
 )
 
 require (
