@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var example = Grid{
+var example = Grid(utils.AsRunes([]string{
 	"....#.....",
 	".........#",
 	"..........",
@@ -18,7 +18,7 @@ var example = Grid{
 	"........#.",
 	"#.........",
 	"......#...",
-}
+}))
 
 func TestFindStart(t *testing.T) {
 	expected := Coord{6, 4}
@@ -53,7 +53,7 @@ func TestSolveExampleA(t *testing.T) {
 }
 
 func TestSolveA(t *testing.T) {
-	assert.Equal(t, 5453, solvePartA(Grid(utils.LoadStrings("input.txt"))))
+	assert.Equal(t, 5453, solvePartA(Grid(utils.AsRunes(utils.LoadStrings("input.txt")))))
 }
 
 func TestSolveExampleB(t *testing.T) {
@@ -61,12 +61,12 @@ func TestSolveExampleB(t *testing.T) {
 }
 
 func TestSolveB(t *testing.T) {
-	assert.Equal(t, 2188, solvePartB(Grid(utils.LoadStrings("input.txt"))))
+	assert.Equal(t, 2188, solvePartB(Grid(utils.AsRunes(utils.LoadStrings("input.txt")))))
 }
 
 func TestIsLoop(t *testing.T) {
 	assert.Equal(t, false, example.isLoop(Coord{6, 4}, Coord{-1, 0}))
 
-	modified := example.alterAt(Coord{6, 3}, '#')
-	assert.Equal(t, true, modified.isLoop(Coord{6, 4}, Coord{-1, 0}))
+	grid := example.alterAt(Coord{6, 3}, '#')
+	assert.Equal(t, true, grid.isLoop(Coord{6, 4}, Coord{-1, 0}))
 }
