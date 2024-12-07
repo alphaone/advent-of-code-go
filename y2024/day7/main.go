@@ -14,7 +14,7 @@ type Equation struct {
 }
 
 func (e Equation) IsSolvable(outcomeFn OutcomeFn) bool {
-	for _, o := range allOutcomes(e.numbers, outcomeFn) {
+	for _, o := range allOutcomes(e.numbers, e.result, outcomeFn) {
 		if e.result == o {
 			return true
 		}
@@ -22,7 +22,7 @@ func (e Equation) IsSolvable(outcomeFn OutcomeFn) bool {
 	return false
 }
 
-func allOutcomes(numbers []int, outcomeFn OutcomeFn) []int {
+func allOutcomes(numbers []int, limit int, outcomeFn OutcomeFn) []int {
 	if len(numbers) == 1 {
 		return numbers
 	}
@@ -31,8 +31,12 @@ func allOutcomes(numbers []int, outcomeFn OutcomeFn) []int {
 
 	res := []int{}
 	for _, o := range outcomeFn(a, b) {
+		if o > limit {
+			continue
+		}
+
 		tail := append([]int{o}, numbers[2:]...)
-		res = append(res, allOutcomes(tail, outcomeFn)...)
+		res = append(res, allOutcomes(tail, limit, outcomeFn)...)
 	}
 
 	return res

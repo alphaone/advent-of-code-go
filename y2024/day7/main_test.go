@@ -16,10 +16,11 @@ func TestIsSolvable(t *testing.T) {
 }
 
 func TestAllOutcomes(t *testing.T) {
-	assert.Equal(t, []int{3, 2}, allOutcomes([]int{1, 2}, outcomesA))
-	assert.Equal(t, []int{6, 9, 5, 6}, allOutcomes([]int{1, 2, 3}, outcomesA))
+	assert.Equal(t, []int{3, 2}, allOutcomes([]int{1, 2}, 10, outcomesA))
+	assert.Equal(t, []int{6, 9, 5, 6}, allOutcomes([]int{1, 2, 3}, 10, outcomesA))
 
-	assert.Equal(t, []int{3, 2, 12}, allOutcomes([]int{1, 2}, outcomesB))
+	assert.Equal(t, []int{3, 2, 12}, allOutcomes([]int{1, 2}, 15, outcomesB))
+	assert.Equal(t, []int{3, 2}, allOutcomes([]int{1, 2}, 10, outcomesB))
 }
 
 func TestConcat(t *testing.T) {
