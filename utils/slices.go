@@ -15,6 +15,15 @@ func RemoveIndex[T any](slice []T, index int) []T {
 	return append(ret, slice[index+1:]...)
 }
 
+func LastIndexFunc[S ~[]E, E any](s S, f func(E) bool) int {
+	for i := len(s) - 1; i >= 0; i-- {
+		if f(s[i]) {
+			return i
+		}
+	}
+	return -1
+}
+
 func Transpose[T any](input [][]T) [][]T {
 	result := make([][]T, len(input[0]))
 	for i := 0; i < len(result); i++ {
