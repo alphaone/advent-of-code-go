@@ -21,16 +21,12 @@ func TestSplitN(t *testing.T) {
 	assert.Nil(t, b)
 }
 
-func TestBlink(t *testing.T) {
+func TestBlinkRecursive(t *testing.T) {
 	stones := []int{125, 17}
-	blink(&stones)
-	assert.Equal(t, []int{253000, 1, 7}, stones)
-	blink(&stones)
-	assert.Equal(t, []int{253, 0, 2024, 14168}, stones)
-	blink(&stones)
-	assert.Equal(t, []int{512072, 1, 20, 24, 28676032}, stones)
-	blink(&stones)
-	assert.Equal(t, []int{512, 72, 2024, 2, 0, 2, 4, 2867, 6032}, stones)
+	assert.Equal(t, 3, solve(1, stones))
+	assert.Equal(t, 4, solve(2, stones))
+	assert.Equal(t, 5, solve(3, stones))
+	assert.Equal(t, 9, solve(4, stones))
 }
 
 func TestSolvePartA(t *testing.T) {
@@ -38,5 +34,5 @@ func TestSolvePartA(t *testing.T) {
 }
 
 func TestSolvePartB(t *testing.T) {
-	assert.Equal(t, 185894, solve(75, parseInput(utils.LoadString("input.txt"))))
+	assert.Equal(t, 221632504974231, solve(75, parseInput(utils.LoadString("input.txt"))))
 }

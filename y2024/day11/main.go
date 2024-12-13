@@ -1,12 +1,9 @@
 package day11
 
 import (
-	"log"
 	"math"
 	"strconv"
 	"strings"
-
-	"github.com/alphaone/advent/utils"
 )
 
 func parseInput(input string) []int {
@@ -23,30 +20,6 @@ func parseInput(input string) []int {
 	return res
 }
 
-func blink(stones *[]int) {
-	for i := 0; i < len(*stones); i++ {
-		s1, s2 := applyRule((*stones)[i])
-		(*stones)[i] = s1
-		if s2 != nil {
-			*stones = utils.Insert(*stones, i+1, *s2)
-			i++
-		}
-	}
-}
-
-func applyRule(n int) (int, *int) {
-	if n == 0 {
-		return 1, nil
-	}
-
-	a, b := splitNumber(n)
-	if b != nil {
-		return a, b
-	}
-
-	return n * 2024, nil
-}
-
 func splitNumber(n int) (int, *int) {
 	l := int(math.Ceil(math.Log10(float64(n + 1))))
 	if l%2 == 0 {
@@ -59,9 +32,41 @@ func splitNumber(n int) (int, *int) {
 }
 
 func solve(n int, stones []int) int {
-	for i := range n {
-		log.Print(i, len(stones))
-		blink(&stones)
+	sum := 0
+	for _, cur := range stones {
+		sum += blink(cur, n)
 	}
-	return len(stones)
+	return sum
+}
+
+type cachekey = struct{ n, blinksLeft int }
+
+var mem = map[cachekey]int{}
+
+func blink(cur int, blinksLeft int) int {
+	if blinksLeft == 0 {
+		return 1
+	}
+
+	cached, ok := mem[cachekey{cur, blinksLeft}]
+	if ok {
+		return cached
+	}
+
+	res := blinkRecursive(cur, blinksLeft)
+	mem[cachekey{cur, blinksLeft}] = res
+
+	return res
+}
+
+func blinkRecursive(cur int, blinksLeft int) int {
+	blinksLeft--
+	if cur == 0 {
+		return blink(1, blinksLeft)
+	}
+	a, b := splitNumber(cur)
+	if b != nil {
+		return blink(a, blinksLeft) + blink(*b, blinksLeft)
+	}
+	return blink(cur*2024, blinksLeft)
 }
