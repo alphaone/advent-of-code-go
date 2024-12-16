@@ -10,7 +10,7 @@ import (
 )
 
 type Coord struct {
-	l, r int
+	l, c int
 }
 
 type (
@@ -19,7 +19,7 @@ type (
 )
 
 func (c Coord) add(other Coord) Coord {
-	return Coord{c.l + other.l, c.r + other.r}
+	return Coord{c.l + other.l, c.c + other.c}
 }
 
 func (c Coord) rotateClockwise() Coord {
@@ -62,11 +62,11 @@ func (g *Grid) findCoord(lookingfor rune) Coord {
 }
 
 func (g *Grid) charAtPos(pos Coord) (rune, error) {
-	if pos.l < 0 || pos.r < 0 || pos.l >= len(*g) || pos.r >= len((*g)[0]) {
+	if pos.l < 0 || pos.c < 0 || pos.l >= len(*g) || pos.c >= len((*g)[0]) {
 		return ' ', errors.New("out of bounds")
 	}
 
-	return []rune((*g)[pos.l])[pos.r], nil
+	return []rune((*g)[pos.l])[pos.c], nil
 }
 
 func (g *Grid) alterAt(pos Coord, replace rune) Grid {
@@ -78,7 +78,7 @@ func (g *Grid) alterAt(pos Coord, replace rune) Grid {
 		}
 		res[l] = newLine
 	}
-	res[pos.l][pos.r] = replace
+	res[pos.l][pos.c] = replace
 	return res
 }
 
@@ -103,7 +103,7 @@ func (g *Grid) pathWalked() Path {
 	path := Path{pos: []rune{'N'}}
 	for {
 		pos, dir = g.walk(pos, dir)
-		if dir.l == 0 && dir.r == 0 {
+		if dir.l == 0 && dir.c == 0 {
 			break
 		}
 
@@ -122,7 +122,7 @@ func (g *Grid) isLoop(pos Coord, dir Coord) bool {
 	for {
 		pos, dir = g.walk(pos, dir)
 
-		if dir.l == 0 && dir.r == 0 {
+		if dir.l == 0 && dir.c == 0 {
 			return false
 		}
 
@@ -152,7 +152,7 @@ func solvePartB(g Grid) int {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			if pos.l == c.l && pos.r == c.r {
+			if pos.l == c.l && pos.c == c.c {
 				return
 			}
 

@@ -1,20 +1,20 @@
 package day8
 
 type (
-	Coord struct{ l, r int }
+	Coord struct{ l, c int }
 	Grid  [][]rune
 )
 
 func (c Coord) add(other Coord) Coord {
-	return Coord{c.l + other.l, c.r + other.r}
+	return Coord{c.l + other.l, c.c + other.c}
 }
 
 func (c Coord) subtract(other Coord) Coord {
-	return Coord{c.l - other.l, c.r - other.r}
+	return Coord{c.l - other.l, c.c - other.c}
 }
 
 func (c Coord) inside(boxStart Coord, boxEnd Coord) bool {
-	return c.l >= boxStart.l && c.r >= boxStart.r && c.l < boxEnd.l && c.r < boxEnd.r
+	return c.l >= boxStart.l && c.c >= boxStart.c && c.l < boxEnd.l && c.c < boxEnd.c
 }
 
 func parseInput(input []string) Grid {

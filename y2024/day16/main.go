@@ -8,19 +8,19 @@ import (
 
 type (
 	Grid  [][]rune
-	Coord struct{ l, r int }
+	Coord struct{ l, c int }
 )
 
 func (c Coord) add(other Coord) Coord {
-	return Coord{c.l + other.l, c.r + other.r}
+	return Coord{c.l + other.l, c.c + other.c}
 }
 
 func (d Coord) equals(other Coord) bool {
-	return d.l == other.l && d.r == other.r
+	return d.l == other.l && d.c == other.c
 }
 
 func (d Coord) opposite() Coord {
-	return Coord{-d.l, -d.r}
+	return Coord{-d.l, -d.c}
 }
 
 func parse(input []string) Grid {
@@ -76,7 +76,7 @@ func Dijkstra(start Coord, goal Coord, field Grid) int {
 			}
 
 			newPos := itemValue.Pos.add(dir)
-			if field[newPos.l][newPos.r] == '.' || field[newPos.l][newPos.r] == 'E' {
+			if field[newPos.l][newPos.c] == '.' || field[newPos.l][newPos.c] == 'E' {
 				addedPrio := 1
 				if dir != itemValue.Dir {
 					addedPrio += 1000

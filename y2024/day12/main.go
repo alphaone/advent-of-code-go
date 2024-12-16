@@ -7,11 +7,11 @@ import (
 
 type (
 	Grid  [][]rune
-	Coord struct{ l, r int }
+	Coord struct{ l, c int }
 )
 
 func (c Coord) add(other Coord) Coord {
-	return Coord{c.l + other.l, c.r + other.r}
+	return Coord{c.l + other.l, c.c + other.c}
 }
 
 func parseGrid(input []string) Grid {
@@ -91,9 +91,9 @@ func (g Grid) findNeighors(pos Coord, rune rune) []Coord {
 }
 
 func (g *Grid) runeAt(pos Coord) rune {
-	if pos.l < 0 || pos.r < 0 || pos.l >= len(*g) || pos.r >= len((*g)[0]) {
+	if pos.l < 0 || pos.c < 0 || pos.l >= len(*g) || pos.c >= len((*g)[0]) {
 		return ' '
 	}
 
-	return []rune((*g)[pos.l])[pos.r]
+	return []rune((*g)[pos.l])[pos.c]
 }

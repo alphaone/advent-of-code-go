@@ -22,14 +22,12 @@ func solvePartB(g Grid) int {
 	return count
 }
 
-type Coord struct {
-	l, r int
-}
+type Coord struct{ l, c int }
 
 type Grid []string
 
 func (c Coord) add(other Coord) Coord {
-	return Coord{c.l + other.l, c.r + other.r}
+	return Coord{c.l + other.l, c.c + other.c}
 }
 
 func (g Grid) allPos(lookingfor rune) []Coord {
@@ -45,11 +43,11 @@ func (g Grid) allPos(lookingfor rune) []Coord {
 }
 
 func (g Grid) charAtPos(pos Coord) (rune, error) {
-	if pos.l < 0 || pos.r < 0 || pos.l >= len(g) || pos.r >= len(g[0]) {
+	if pos.l < 0 || pos.c < 0 || pos.l >= len(g) || pos.c >= len(g[0]) {
 		return ' ', errors.New("out of bounds")
 	}
 
-	return []rune(g[pos.l])[pos.r], nil
+	return []rune(g[pos.l])[pos.c], nil
 }
 
 func (g Grid) wordFromPos(pos Coord, dir Coord, length int) string {

@@ -7,11 +7,11 @@ import (
 
 type (
 	Grid  [][]rune
-	Coord struct{ l, r int }
+	Coord struct{ l, c int }
 )
 
 func (c Coord) add(other Coord) Coord {
-	return Coord{c.l + other.l, c.r + other.r}
+	return Coord{c.l + other.l, c.c + other.c}
 }
 
 func (g *Grid) findCoord(lookingfor rune) []Coord {
@@ -57,23 +57,23 @@ func (g *Grid) canMove(pos Coord, dir Coord) bool {
 
 func (g *Grid) blocksInDir(pos Coord, dir Coord) []rune {
 	next := pos.add(dir)
-	if next.l < 0 || next.l >= len(*g) || next.r < 0 || next.r >= len((*g)[0]) {
+	if next.l < 0 || next.l >= len(*g) || next.c < 0 || next.c >= len((*g)[0]) {
 		return []rune{}
 	}
-	if (*g)[next.l][next.r] == '#' {
+	if (*g)[next.l][next.c] == '#' {
 		return []rune{}
 	}
 
-	return append([]rune{(*g)[next.l][next.r]}, g.blocksInDir(next, dir)...)
+	return append([]rune{(*g)[next.l][next.c]}, g.blocksInDir(next, dir)...)
 }
 
 func (g *Grid) pushBlock(pos Coord, dir Coord) {
-	cur := (*g)[pos.l][pos.r]
+	cur := (*g)[pos.l][pos.c]
 	nextPos := pos.add(dir)
-	if (*g)[nextPos.l][nextPos.r] != '.' {
+	if (*g)[nextPos.l][nextPos.c] != '.' {
 		g.pushBlock(nextPos, dir)
 	}
-	(*g)[nextPos.l][nextPos.r] = cur
+	(*g)[nextPos.l][nextPos.c] = cur
 }
 
 func parse(input string) (Grid, []rune) {
@@ -89,7 +89,7 @@ func parse(input string) (Grid, []rune) {
 
 func solvePartA(g Grid, movements []rune) int {
 	pos := g.findCoord('@')[0]
-	g[pos.l][pos.r] = '.'
+	g[pos.l][pos.c] = '.'
 
 	for i, m := range movements {
 		pos = g.move(pos, directions[m])
@@ -97,7 +97,7 @@ func solvePartA(g Grid, movements []rune) int {
 
 	sum := 0
 	for _, box := range g.findCoord('O') {
-		sum += box.l*100 + box.r
+		sum += box.l*100 + box.c
 	}
 
 	return sum

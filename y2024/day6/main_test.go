@@ -45,7 +45,7 @@ func TestWalk(t *testing.T) {
 		pos, dir = example.walk(pos, dir)
 	}
 
-	assert.Equal(t, Coord{l: 3, r: 8}, pos)
+	assert.Equal(t, Coord{l: 3, c: 8}, pos)
 }
 
 func TestSolveExampleA(t *testing.T) {
