@@ -1,20 +1,19 @@
 package day15
 
 import (
-	"slices"
 	"strings"
 )
 
 type (
 	Grid  [][]rune
-	Coord struct{ l, c int }
+	Coord struct{ L, C int }
 )
 
 func (c Coord) add(other Coord) Coord {
-	return Coord{c.l + other.l, c.c + other.c}
+	return Coord{c.L + other.L, c.C + other.C}
 }
 
-func (g *Grid) findCoord(lookingfor rune) []Coord {
+func (g *Grid) FindCoord(lookingfor rune) []Coord {
 	res := make([]Coord, 0)
 	for l, line := range *g {
 		for r, rune := range line {
@@ -26,57 +25,105 @@ func (g *Grid) findCoord(lookingfor rune) []Coord {
 	return res
 }
 
-func (g Grid) String() string {
+func (g Grid) Visual(pos Coord) string {
 	res := ""
-	for _, line := range g {
-		res += string(line) + "\n"
+	for l, line := range g {
+		for c, rune := range line {
+			if pos.L == l && pos.C == c {
+				res += "@"
+			} else {
+				res += string(rune)
+			}
+		}
+		res += "\n"
 	}
 	return res
 }
 
-var directions = map[rune]Coord{
+var Directions = map[rune]Coord{
 	'^': {-1, 0},
 	'v': {1, 0},
 	'<': {0, -1},
 	'>': {0, 1},
 }
 
-func (g *Grid) move(pos Coord, dir Coord) Coord {
-	if !g.canMove(pos, dir) {
+func (g *Grid) Move(pos Coord, dir Coord) Coord {
+	if !g.CanMove(pos, dir) {
 		return pos
 	}
 
-	g.pushBlock(pos, dir)
+	g.PushBlock(pos, dir)
 	return pos.add(dir)
 }
 
-func (g *Grid) canMove(pos Coord, dir Coord) bool {
-	blocks := g.blocksInDir(pos, dir)
-	return slices.Contains(blocks, '.')
-}
-
-func (g *Grid) blocksInDir(pos Coord, dir Coord) []rune {
+func (g *Grid) CanMove(pos Coord, dir Coord) bool {
 	next := pos.add(dir)
-	if next.l < 0 || next.l >= len(*g) || next.c < 0 || next.c >= len((*g)[0]) {
-		return []rune{}
+	switch (*g)[next.L][next.C] {
+	case '#':
+		return false
+	case '.':
+		return true
+	case 'O':
+		return g.CanMove(next, dir)
+	case '[':
+		if dir.L == 0 {
+			// horizontal
+			if dir.C == 1 {
+				return g.CanMove(next.add(dir), dir)
+			} else {
+				panic("cannot move inner block [ to left")
+			}
+		} else {
+			// vertical
+			return g.CanMove(next, dir) && g.CanMove(next.add(Coord{0, 1}), dir)
+		}
+	case ']':
+		if dir.L == 0 {
+			// horizontal
+			if dir.C == -1 {
+				return g.CanMove(next.add(dir), dir)
+			} else {
+				panic("cannot move inner block ] to right")
+			}
+		} else {
+			// vertical
+			return g.CanMove(next, dir) && g.CanMove(next.add(Coord{0, -1}), dir)
+		}
 	}
-	if (*g)[next.l][next.c] == '#' {
-		return []rune{}
-	}
-
-	return append([]rune{(*g)[next.l][next.c]}, g.blocksInDir(next, dir)...)
+	panic("unreachable")
 }
 
-func (g *Grid) pushBlock(pos Coord, dir Coord) {
-	cur := (*g)[pos.l][pos.c]
+func (g *Grid) PushBlock(pos Coord, dir Coord) {
 	nextPos := pos.add(dir)
-	if (*g)[nextPos.l][nextPos.c] != '.' {
-		g.pushBlock(nextPos, dir)
+	switch (*g)[nextPos.L][nextPos.C] {
+	case '.':
+	case 'O':
+		g.PushBlock(nextPos, dir)
+	case '[':
+		if dir.L == 0 {
+			// horizontal
+			g.PushBlock(nextPos, dir)
+		} else {
+			// vertical
+			g.PushBlock(nextPos, dir)
+			g.PushBlock(nextPos.add(Coord{0, 1}), dir)
+			(*g)[nextPos.L][nextPos.C+1] = '.'
+		}
+	case ']':
+		if dir.L == 0 {
+			// horizontal
+			g.PushBlock(nextPos, dir)
+		} else {
+			// vertical
+			g.PushBlock(nextPos, dir)
+			g.PushBlock(nextPos.add(Coord{0, -1}), dir)
+			(*g)[nextPos.L][nextPos.C-1] = '.'
+		}
 	}
-	(*g)[nextPos.l][nextPos.c] = cur
+	(*g)[nextPos.L][nextPos.C] = (*g)[pos.L][pos.C]
 }
 
-func parse(input string) (Grid, []rune) {
+func Parse(input string) (Grid, []rune) {
 	parts := strings.Split(input, "\n\n")
 
 	grid := make(Grid, 0)
@@ -87,17 +134,45 @@ func parse(input string) (Grid, []rune) {
 	return grid, []rune(strings.Join(strings.Split(parts[1], "\n"), ""))
 }
 
-func solvePartA(g Grid, movements []rune) int {
-	pos := g.findCoord('@')[0]
-	g[pos.l][pos.c] = '.'
+func ParseB(input string) (Grid, []rune) {
+	parts := strings.Split(input, "\n\n")
 
-	for i, m := range movements {
-		pos = g.move(pos, directions[m])
+	grid := make(Grid, 0)
+	for _, line := range strings.Split(parts[0], "\n") {
+		runeLine := make([]rune, 0)
+		for _, x := range line {
+			switch x {
+			case '#':
+				runeLine = append(runeLine, '#', '#')
+			case 'O':
+				runeLine = append(runeLine, '[', ']')
+			case '.':
+				runeLine = append(runeLine, '.', '.')
+			case '@':
+				runeLine = append(runeLine, '@', '.')
+			}
+		}
+		grid = append(grid, runeLine)
+
+	}
+
+	return grid, []rune(strings.Join(strings.Split(parts[1], "\n"), ""))
+}
+
+func solve(g Grid, movements []rune) int {
+	pos := g.FindCoord('@')[0]
+	g[pos.L][pos.C] = '.'
+
+	for _, m := range movements {
+		pos = g.Move(pos, Directions[m])
 	}
 
 	sum := 0
-	for _, box := range g.findCoord('O') {
-		sum += box.l*100 + box.c
+	for _, box := range g.FindCoord('O') {
+		sum += box.L*100 + box.C
+	}
+	for _, box := range g.FindCoord('[') {
+		sum += box.L*100 + box.C
 	}
 
 	return sum
