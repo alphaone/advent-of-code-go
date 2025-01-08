@@ -1,5 +1,7 @@
 package utils
 
+import "slices"
+
 func Insert[T any](a []T, index int, value T) []T {
 	if len(a) == index { // nil or empty slice or after last element
 		return append(a, value)
@@ -83,4 +85,28 @@ func Frequencies[T comparable](xs []T) map[T]int {
 		res[x] = res[x] + 1
 	}
 	return res
+}
+
+func Intersection[T comparable](s1, s2 []T) []T {
+	res := []T{}
+	hash := make(map[T]bool)
+	for _, e := range s1 {
+		hash[e] = true
+	}
+	for _, e := range s2 {
+		if hash[e] && !slices.Contains(res, e) {
+			res = append(res, e)
+		}
+	}
+	return res
+}
+
+// partition the given slice into slices of given size
+//
+// Deprecated: Use `slices.Chunk` instead.
+func ChunkBy[T any](items []T, chunkSize int) (chunks [][]T) {
+	for chunkSize < len(items) {
+		items, chunks = items[chunkSize:], append(chunks, items[0:chunkSize:chunkSize])
+	}
+	return append(chunks, items)
 }
