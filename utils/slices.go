@@ -87,6 +87,17 @@ func Frequencies[T comparable](xs []T) map[T]int {
 	return res
 }
 
+func IsUnique[T comparable](xs []T) bool {
+	m := make(map[T]bool)
+	for _, x := range xs {
+		if _, ok := m[x]; ok {
+			return false
+		}
+		m[x] = true
+	}
+	return true
+}
+
 func Intersection[T comparable](s1, s2 []T) []T {
 	res := []T{}
 	hash := make(map[T]bool)
