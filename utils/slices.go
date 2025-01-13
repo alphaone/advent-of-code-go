@@ -112,6 +112,15 @@ func Intersection[T comparable](s1, s2 []T) []T {
 	return res
 }
 
+func All[T any](xs []T, f func(T) bool) bool {
+	for _, x := range xs {
+		if !f(x) {
+			return false
+		}
+	}
+	return true
+}
+
 // partition the given slice into slices of given size
 //
 // Deprecated: Use `slices.Chunk` instead.
