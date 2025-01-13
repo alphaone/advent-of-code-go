@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/mathutils"
 )
 
 func derivative(line []int) []int {
@@ -75,7 +75,7 @@ func solvePartA(input []string) int {
 		results = append(results, extrapolateNext(intLine))
 	}
 
-	return utils.Sum(results)
+	return mathutils.Sum(results)
 }
 
 func solvePartB(input []string) int {
@@ -90,5 +90,5 @@ func solvePartB(input []string) int {
 		results = append(results, extrapolatePrev(intLine))
 	}
 
-	return utils.Sum(results)
+	return mathutils.Sum(results)
 }

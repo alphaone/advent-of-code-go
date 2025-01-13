@@ -4,7 +4,8 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/mathutils"
+	"github.com/alphaone/advent/utils/sliceutils"
 )
 
 type Pos struct {
@@ -41,17 +42,17 @@ type Grid map[Pos]int
 func (g Grid) Fill(s Segment) {
 	if s.Start.X == s.End.X {
 		// fmt.Printf("Vertical: %v\n", s)
-		for _, y := range utils.MakeSequence(s.Start.Y, utils.AbsDiffInt(s.Start.Y, s.End.Y)+1, s.Start.Y > s.End.Y) {
+		for _, y := range sliceutils.MakeSequence(s.Start.Y, mathutils.AbsDiffInt(s.Start.Y, s.End.Y)+1, s.Start.Y > s.End.Y) {
 			g[Pos{s.Start.X, y}]++
 		}
 	} else if s.Start.Y == s.End.Y {
 		// fmt.Printf("Horizontal: %v\n", s)
-		for _, x := range utils.MakeSequence(s.Start.X, utils.AbsDiffInt(s.Start.X, s.End.X)+1, s.Start.X > s.End.X) {
+		for _, x := range sliceutils.MakeSequence(s.Start.X, mathutils.AbsDiffInt(s.Start.X, s.End.X)+1, s.Start.X > s.End.X) {
 			g[Pos{x, s.Start.Y}]++
 		}
-	} else if utils.AbsDiffInt(s.Start.X, s.End.X) == utils.AbsDiffInt(s.Start.Y, s.End.Y) {
+	} else if mathutils.AbsDiffInt(s.Start.X, s.End.X) == mathutils.AbsDiffInt(s.Start.Y, s.End.Y) {
 		// fmt.Printf("Diagonal: %v\n", s)
-		for i, x := range utils.MakeSequence(s.Start.X, utils.AbsDiffInt(s.Start.X, s.End.X)+1, s.Start.X > s.End.X) {
+		for i, x := range sliceutils.MakeSequence(s.Start.X, mathutils.AbsDiffInt(s.Start.X, s.End.X)+1, s.Start.X > s.End.X) {
 			step := 1
 			if s.Start.Y > s.End.Y {
 				step = -1

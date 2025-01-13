@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/sliceutils"
 )
 
 func parseInput(input string) (int, int) {
@@ -47,7 +47,7 @@ func valid(input int, freqPred func(int) bool) bool {
 		}
 	}
 
-	freqs := utils.Frequencies(runeArray)
+	freqs := sliceutils.Frequencies(runeArray)
 	foundDouble := false
 	for _, v := range freqs {
 		if freqPred(v) {

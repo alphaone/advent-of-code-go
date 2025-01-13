@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/mathutils"
 )
 
 type Card struct {
@@ -49,7 +50,7 @@ func (c Card) Score() int {
 	if len(matching) == 0 {
 		return 0
 	}
-	return utils.PowInts(2, len(matching)-1)
+	return mathutils.PowInts(2, len(matching)-1)
 }
 
 func solvePartA(input []string) int {

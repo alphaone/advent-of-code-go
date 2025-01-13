@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/y2023/day14/rotate"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -37,7 +38,7 @@ func TestMoveNorth(t *testing.T) {
 		"..O.......",
 		"#....###..",
 		"#....#....",
-	}, utils.AsStrings(utils.RotateClockwise(MoveWest(utils.RotateCounterClockwise(utils.AsRunes(example1))))))
+	}, utils.AsStrings(rotate.RotateClockwise(MoveWest(rotate.RotateCounterClockwise(utils.AsRunes(example1))))))
 }
 
 func TestExampleA(t *testing.T) {
@@ -62,7 +63,7 @@ func TestCycle(t *testing.T) {
 		"#...O###..",
 		"#..OO#....",
 	}
-	assert.Equal(t, expected, utils.AsStrings(utils.RotateClockwise(cycleThrough(utils.RotateCounterClockwise(utils.AsRunes(example1)), 1))))
+	assert.Equal(t, expected, utils.AsStrings(rotate.RotateClockwise(cycleThrough(rotate.RotateCounterClockwise(utils.AsRunes(example1)), 1))))
 
 	expected = []string{
 		".....#....",
@@ -76,7 +77,7 @@ func TestCycle(t *testing.T) {
 		"#..OO###..",
 		"#.OOO#...O",
 	}
-	assert.Equal(t, expected, utils.AsStrings(utils.RotateClockwise(cycleThrough(utils.RotateCounterClockwise(utils.AsRunes(example1)), 2))))
+	assert.Equal(t, expected, utils.AsStrings(rotate.RotateClockwise(cycleThrough(rotate.RotateCounterClockwise(utils.AsRunes(example1)), 2))))
 
 	expected = []string{
 		".....#....",
@@ -90,7 +91,7 @@ func TestCycle(t *testing.T) {
 		"#...O###.O",
 		"#.OOO#...O",
 	}
-	assert.Equal(t, expected, utils.AsStrings(utils.RotateClockwise(cycleThrough(utils.RotateCounterClockwise(utils.AsRunes(example1)), 3))))
+	assert.Equal(t, expected, utils.AsStrings(rotate.RotateClockwise(cycleThrough(rotate.RotateCounterClockwise(utils.AsRunes(example1)), 3))))
 }
 
 func TestExampleB(t *testing.T) {

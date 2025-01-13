@@ -1,6 +1,8 @@
 package day2
 
-import "github.com/alphaone/advent/utils"
+import (
+	"github.com/alphaone/advent/utils/sliceutils"
+)
 
 func solvePartA(reports []Report) int {
 	res := 0
@@ -65,7 +67,7 @@ func (r Report) Decreasing() bool {
 func (r Report) Damp() []Report {
 	var res []Report
 	for i := range r {
-		res = append(res, utils.RemoveIndex(r, i))
+		res = append(res, sliceutils.RemoveIndex(r, i))
 	}
 	return res
 }

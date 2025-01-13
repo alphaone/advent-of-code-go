@@ -6,6 +6,8 @@ import (
 	"strings"
 
 	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/sliceutils"
+	"github.com/alphaone/advent/y2023/day14/rotate"
 )
 
 func MoveLineWest(s []rune) []rune {
@@ -19,7 +21,7 @@ func MoveLineWest(s []rune) []rune {
 	for _, v := range r {
 		res = append(res, moveStones([]rune(v)))
 	}
-	return utils.Join(res, '#')
+	return sliceutils.Join(res, '#')
 }
 
 func moveStones(s []rune) []rune {
@@ -36,10 +38,10 @@ func MoveWest(input [][]rune) [][]rune {
 }
 
 func solvePartA(input [][]rune) int {
-	input = utils.RotateCounterClockwise(input)
+	input = rotate.RotateCounterClockwise(input)
 	moved := MoveWest(input)
 
-	return Weight(utils.RotateClockwise(moved))
+	return Weight(rotate.RotateClockwise(moved))
 }
 
 func Weight(input [][]rune) int {
@@ -79,15 +81,15 @@ func cycleThrough(input [][]rune, count int) [][]rune {
 
 func oneCycle(input [][]rune) [][]rune {
 	input = MoveWest(input)
-	input = MoveWest(utils.RotateClockwise(input))
-	input = MoveWest(utils.RotateClockwise(input))
-	input = MoveWest(utils.RotateClockwise(input))
-	return utils.RotateClockwise(input)
+	input = MoveWest(rotate.RotateClockwise(input))
+	input = MoveWest(rotate.RotateClockwise(input))
+	input = MoveWest(rotate.RotateClockwise(input))
+	return rotate.RotateClockwise(input)
 }
 
 func solvePartB(input [][]rune, count int) int {
-	input = utils.RotateCounterClockwise(input)
+	input = rotate.RotateCounterClockwise(input)
 	cycled := cycleThrough(input, count)
-	cycled = utils.RotateClockwise(cycled)
+	cycled = rotate.RotateClockwise(cycled)
 	return Weight(cycled)
 }

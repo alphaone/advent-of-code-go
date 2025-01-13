@@ -3,12 +3,12 @@ package day3
 import (
 	"slices"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/sliceutils"
 )
 
 func findWrongItem(rucksack string) rune {
 	firstHalf, secondHalf := rucksack[:len(rucksack)/2], rucksack[len(rucksack)/2:]
-	res := utils.Intersection([]rune(firstHalf), []rune(secondHalf))
+	res := sliceutils.Intersection([]rune(firstHalf), []rune(secondHalf))
 	if len(res) == 0 {
 		panic("No wrong item found")
 	}
@@ -34,7 +34,7 @@ func solve(input []string) int {
 func findBadge(rucksacks []string) rune {
 	res := []rune(rucksacks[0])
 	for _, rucksack := range rucksacks[1:] {
-		res = utils.Intersection(res, []rune(rucksack))
+		res = sliceutils.Intersection(res, []rune(rucksack))
 	}
 	if len(res) == 0 {
 		panic("No badge found")

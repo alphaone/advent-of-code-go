@@ -5,7 +5,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/mathutils"
+	"github.com/alphaone/advent/utils/sliceutils"
 )
 
 type Tuple struct {
@@ -27,7 +28,7 @@ func solvePartA(ts []Tuple) int {
 	sum := 0
 	for i, a := range as {
 		b := bs[i]
-		diff := utils.AbsInt(a - b)
+		diff := mathutils.AbsInt(a - b)
 
 		sum += diff
 	}
@@ -44,7 +45,7 @@ func solvePartB(ts []Tuple) int {
 		bs[i] = t.B
 	}
 
-	freqs := utils.Frequencies(bs)
+	freqs := sliceutils.Frequencies(bs)
 
 	sum := 0
 	for _, a := range as {

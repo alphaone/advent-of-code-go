@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/mathutils"
 )
 
 type CaloriesByElf = [][]int
@@ -34,7 +34,7 @@ func parseInput(s string) CaloriesByElf {
 func sumByElf(elfs CaloriesByElf) []int {
 	res := make([]int, 0)
 	for _, elf := range elfs {
-		res = append(res, utils.Sum(elf))
+		res = append(res, mathutils.Sum(elf))
 	}
 	return res
 }
@@ -47,5 +47,5 @@ func solvePartB(input string) int {
 	elfs := sumByElf(parseInput(input))
 	slices.SortFunc(elfs, func(a, b int) int { return b - a })
 
-	return utils.Sum(elfs[0:3])
+	return mathutils.Sum(elfs[0:3])
 }

@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/mathutils"
 )
 
 type (
@@ -30,7 +30,7 @@ func (c Coord) scale(length int) Coord {
 }
 
 func (c Coord) length() int {
-	return utils.AbsInt(c.x) + utils.AbsInt(c.y)
+	return mathutils.AbsInt(c.x) + mathutils.AbsInt(c.y)
 }
 
 func (c Coord) lengthAlongPath(path []Segment) int {

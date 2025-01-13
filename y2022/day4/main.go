@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/sliceutils"
 )
 
 type Assignment struct {
@@ -75,11 +75,11 @@ func expandRange(rangeStr string) []int {
 }
 
 func fullyContained(a Assignment) bool {
-	i := utils.Intersection(a.first, a.second)
+	i := sliceutils.Intersection(a.first, a.second)
 	return len(i) == len(a.first) || len(i) == len(a.second)
 }
 
 func overlaps(a Assignment) bool {
-	i := utils.Intersection(a.first, a.second)
+	i := sliceutils.Intersection(a.first, a.second)
 	return len(i) > 0
 }

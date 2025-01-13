@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/sliceutils"
 )
 
 type Game struct {
@@ -56,7 +57,7 @@ func (b Board) Completed() bool {
 			return true
 		}
 	}
-	for l, line := range utils.Transpose(b.Numbers) {
+	for l, line := range sliceutils.Transpose(b.Numbers) {
 		crossed := 0
 		for c := range line {
 			if slices.Contains(b.Crosses, Coord{Line: c, Col: l}) {

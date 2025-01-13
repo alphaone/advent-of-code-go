@@ -1,4 +1,4 @@
-package utils
+package mathutils
 
 func Sum(slice []int) int {
 	result := 0

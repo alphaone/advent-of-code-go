@@ -3,13 +3,13 @@ package day7
 import (
 	"slices"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/mathutils"
 )
 
 func SumUpDistance(input []int, alignment int) int {
 	result := 0
 	for _, v := range input {
-		result += utils.AbsDiffInt(v, alignment)
+		result += mathutils.AbsDiffInt(v, alignment)
 	}
 	return result
 }
@@ -32,7 +32,7 @@ func FindShortestDistance(input []int) (int, int) {
 func SumUpFuel(input []int, alignment int) int {
 	result := 0
 	for _, v := range input {
-		distance := utils.AbsDiffInt(v, alignment)
+		distance := mathutils.AbsDiffInt(v, alignment)
 		result += sumFromAToB(0, distance)
 	}
 	return result

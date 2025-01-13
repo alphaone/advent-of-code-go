@@ -3,7 +3,7 @@ package day9
 import (
 	"slices"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/sliceutils"
 )
 
 func layoutFromDense(input string) []int {
@@ -57,7 +57,7 @@ func blockLayoutFromDense(input string) []block {
 
 func cleanupStepA(layout []int) bool {
 	idx1 := slices.Index(layout, -1)
-	idx2 := utils.LastIndexFunc(layout, func(e int) bool { return e != -1 })
+	idx2 := sliceutils.LastIndexFunc(layout, func(e int) bool { return e != -1 })
 	if idx1 == -1 || idx2 == -1 || idx2 < idx1 {
 		return false
 	}
@@ -78,7 +78,7 @@ func cleanupA(layout []int) {
 }
 
 func cleanupStepB(layout []block, maxIdx int) []block {
-	idx2 := utils.LastIndexFunc(layout[:maxIdx], func(e block) bool { return e.id != -1 })
+	idx2 := sliceutils.LastIndexFunc(layout[:maxIdx], func(e block) bool { return e.id != -1 })
 	if idx2 == -1 {
 		return layout
 	}
@@ -93,7 +93,7 @@ func cleanupStepB(layout []block, maxIdx int) []block {
 	layout[idx1] = layout[idx2]
 	layout[idx2] = block{-1, b.length}
 	if diff > 0 {
-		layout = utils.Insert(layout, idx1+1, block{-1, diff})
+		layout = sliceutils.Insert(layout, idx1+1, block{-1, diff})
 	}
 
 	return layout

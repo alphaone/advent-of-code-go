@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/sliceutils"
 )
 
 func findSymmetry(input []string) int {
@@ -14,7 +15,7 @@ func findSymmetry(input []string) int {
 		}
 	}
 
-	transposed := utils.AsStrings(utils.Transpose(utils.AsRunes(input)))
+	transposed := utils.AsStrings(sliceutils.Transpose(utils.AsRunes(input)))
 	optionsT := findOptions(transposed)
 	for _, option := range optionsT {
 		if checkSymmetry(transposed, option) {

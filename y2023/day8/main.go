@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/mathutils"
 )
 
 type Node struct {
@@ -30,11 +30,7 @@ func solvePartA(input []string) int {
 
 	current := "AAA"
 	step := 0
-	for {
-		if current == "ZZZ" {
-			break
-		}
-
+	for current != "ZZZ" {
 		direction := rune(directions[step%len(directions)])
 		switch direction {
 		case 'L':
@@ -60,11 +56,7 @@ func solvePartB(input []string) int {
 	for _, nodeName := range startingNodes {
 		step := 0
 
-		for {
-			if strings.HasSuffix(nodeName, "Z") {
-				break
-			}
-
+		for !strings.HasSuffix(nodeName, "Z") {
 			direction := rune(directions[step%len(directions)])
 			switch direction {
 			case 'L':
@@ -80,7 +72,7 @@ func solvePartB(input []string) int {
 
 	lcm := steps[0]
 	for _, x := range steps[1:] {
-		lcm = utils.LCM(lcm, x)
+		lcm = mathutils.LCM(lcm, x)
 	}
 
 	return lcm

@@ -1,7 +1,7 @@
 package day8
 
 import (
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/sliceutils"
 )
 
 type (
@@ -28,7 +28,7 @@ func (tp treepatch) visible(pos coord) bool {
 	cur := tp[pos.l][pos.c]
 
 	for _, dir := range dirs {
-		if utils.All(tp.treesInDir(pos, dir), func(t int) bool { return t < cur }) {
+		if sliceutils.All(tp.treesInDir(pos, dir), func(t int) bool { return t < cur }) {
 			return true
 		}
 	}

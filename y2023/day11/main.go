@@ -2,11 +2,13 @@ package day11
 
 import (
 	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/mathutils"
+	"github.com/alphaone/advent/utils/sliceutils"
 )
 
 func FindRifts(input []string) ([]int, []int) {
 	lineRifts := findEmptyLines(input)
-	transposed := utils.Transpose(utils.AsRunes(input))
+	transposed := sliceutils.Transpose(utils.AsRunes(input))
 	colRifts := findEmptyLines(utils.AsStrings(transposed))
 	return lineRifts, colRifts
 }
@@ -50,7 +52,7 @@ func Galaxies(input []string) []Galaxy {
 
 func Distance(rate int, lineRifts, colRifts []int, g1, g2 Galaxy) int {
 	noOfRifts := len(filterInRange(lineRifts, g1.Line, g2.Line)) + len(filterInRange(colRifts, g1.Col, g2.Col))
-	return utils.AbsDiffInt(g1.Line, g2.Line) + utils.AbsDiffInt(g1.Col, g2.Col) + (noOfRifts * (rate - 1))
+	return mathutils.AbsDiffInt(g1.Line, g2.Line) + mathutils.AbsDiffInt(g1.Col, g2.Col) + (noOfRifts * (rate - 1))
 }
 
 func filterInRange(elements []int, min, max int) []int {

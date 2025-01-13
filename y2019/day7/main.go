@@ -7,7 +7,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/sliceutils"
 )
 
 func parseInput(input string) Program {
@@ -183,7 +183,7 @@ func combinations(options []int) [][]int {
 
 	res := make([][]int, 0)
 	for i, x := range options {
-		restOptions := utils.RemoveIndex(options, i)
+		restOptions := sliceutils.RemoveIndex(options, i)
 		restCombinations := combinations(restOptions)
 		for _, restComb := range restCombinations {
 			c := append([]int{x}, restComb...)

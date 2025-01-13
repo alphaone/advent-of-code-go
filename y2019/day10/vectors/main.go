@@ -3,7 +3,7 @@ package vectors
 import (
 	"math"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/mathutils"
 )
 
 type Vector struct {
@@ -22,7 +22,7 @@ func (v Vector) ProportionalTo(b Vector) bool {
 }
 
 func (v Vector) Reduce() Vector {
-	gcd := utils.GCD(utils.AbsInt(v.X), utils.AbsInt(v.Y))
+	gcd := mathutils.GCD(mathutils.AbsInt(v.X), mathutils.AbsInt(v.Y))
 	return Vector{
 		X: v.X / gcd,
 		Y: v.Y / gcd,

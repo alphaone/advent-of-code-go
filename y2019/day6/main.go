@@ -3,7 +3,7 @@ package day6
 import (
 	"strings"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/sliceutils"
 )
 
 type Orbits map[string]string
@@ -48,8 +48,8 @@ func solvePartB(o Orbits) int {
 		youOrbit := youPath[len(youPath)-1]
 		sanOrbit := sanPath[len(sanPath)-1]
 		if youOrbit == sanOrbit {
-			youPath = utils.RemoveIndex(youPath, len(youPath)-1)
-			sanPath = utils.RemoveIndex(sanPath, len(sanPath)-1)
+			youPath = sliceutils.RemoveIndex(youPath, len(youPath)-1)
+			sanPath = sliceutils.RemoveIndex(sanPath, len(sanPath)-1)
 		} else {
 			break
 		}

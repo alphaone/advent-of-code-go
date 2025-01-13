@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/alphaone/advent/utils"
+	"github.com/alphaone/advent/utils/sliceutils"
 )
 
 func parseInput(input string, width, height int) [][]int {
@@ -28,7 +28,7 @@ func solveA(layers [][]int) int {
 	freqsWithFewestZeros := map[int]int{0: 999}
 
 	for _, layer := range layers {
-		freqs := utils.Frequencies(layer)
+		freqs := sliceutils.Frequencies(layer)
 		if freqs[0] < freqsWithFewestZeros[0] {
 			freqsWithFewestZeros = freqs
 		}
