@@ -8,25 +8,26 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	assert.Equal(t, Line{1, 3, 'a', "abcde"}, Parse("1-3 a: abcde"))
+	assert.Equal(t, LineA{1, 3, 'a', "abcde"}, parseA("1-3 a: abcde"))
+	assert.Equal(t, LineB{1, 3, 'a', "abcde"}, parseB("1-3 a: abcde"))
 }
 
 func TestIsValidA(t *testing.T) {
-	assert.True(t, Line{1, 3, 'a', "abcde"}.IsValidA())
-	assert.False(t, Line{1, 3, 'b', "cdefg"}.IsValidA())
-	assert.True(t, Line{2, 9, 'c', "ccccccccc"}.IsValidA())
+	assert.True(t, LineA{1, 3, 'a', "abcde"}.IsValid())
+	assert.False(t, LineA{1, 3, 'b', "cdefg"}.IsValid())
+	assert.True(t, LineA{2, 9, 'c', "ccccccccc"}.IsValid())
 }
 
 func TestSolveA(t *testing.T) {
-	assert.Equal(t, 586, solveA(utils.LoadStrings("input.txt")))
+	assert.Equal(t, 586, solve(parseA, utils.LoadStrings("input.txt")))
 }
 
 func TestIsValidB(t *testing.T) {
-	assert.True(t, Line{1, 3, 'a', "abcde"}.IsValidB())
-	assert.False(t, Line{1, 3, 'b', "cdefg"}.IsValidB())
-	assert.False(t, Line{2, 9, 'c', "ccccccccc"}.IsValidB())
+	assert.True(t, LineB{1, 3, 'a', "abcde"}.IsValid())
+	assert.False(t, LineB{1, 3, 'b', "cdefg"}.IsValid())
+	assert.False(t, LineB{2, 9, 'c', "ccccccccc"}.IsValid())
 }
 
 func TestSolveB(t *testing.T) {
-	assert.Equal(t, 352, solveB(utils.LoadStrings("input.txt")))
+	assert.Equal(t, 352, solve(parseB, utils.LoadStrings("input.txt")))
 }

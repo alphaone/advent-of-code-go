@@ -6,50 +6,56 @@ import (
 	"github.com/alphaone/advent/utils/sliceutils"
 )
 
-type Line struct {
+type LineA struct {
 	from     int
 	to       int
 	char     rune
 	password string
 }
 
-func (l Line) IsValidA() bool {
+func parseA(line string) validatable {
+	var from, to int
+	var char rune
+	var password string
+	_, _ = fmt.Sscanf(line, "%d-%d %c: %s", &from, &to, &char, &password)
+	return LineA{from, to, char, password}
+}
+
+type LineB struct {
+	first    int
+	second   int
+	char     rune
+	password string
+}
+
+func parseB(line string) validatable {
+	var first, second int
+	var char rune
+	var password string
+	_, _ = fmt.Sscanf(line, "%d-%d %c: %s", &first, &second, &char, &password)
+	return LineB{first, second, char, password}
+}
+
+func (l LineA) IsValid() bool {
 	freqs := sliceutils.Frequencies([]rune(l.password))
 
 	return l.from <= freqs[l.char] && freqs[l.char] <= l.to
 }
 
-func (l Line) IsValidB() bool {
-	return l.password[l.from-1] == byte(l.char) != (l.password[l.to-1] == byte(l.char))
+func (l LineB) IsValid() bool {
+	return l.password[l.first-1] == byte(l.char) != (l.password[l.second-1] == byte(l.char))
 }
 
-func Parse(line string) Line {
-	var from, to int
-	var char rune
-	var password string
-	_, _ = fmt.Sscanf(line, "%d-%d %c: %s", &from, &to, &char, &password)
-	return Line{from, to, char, password}
+type validatable interface {
+	IsValid() bool
 }
 
-func solveA(input []string) int {
+func solve(parse func(string) validatable, input []string) int {
 	res := 0
 
 	for _, line := range input {
-		parsed := Parse(line)
-		if parsed.IsValidA() {
-			res++
-		}
-	}
-
-	return res
-}
-
-func solveB(input []string) int {
-	res := 0
-
-	for _, line := range input {
-		parsed := Parse(line)
-		if parsed.IsValidB() {
+		parsed := parse(line)
+		if parsed.IsValid() {
 			res++
 		}
 	}
