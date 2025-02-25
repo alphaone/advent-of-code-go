@@ -14,25 +14,27 @@ func parse(input []string) tree {
 
 	reOuter := regexp.MustCompile(`(\w+ \w+) bags contain (.*)`)
 	reContent := regexp.MustCompile(`(\d+) (\w+ \w+) bags?`)
+
 	for _, line := range input {
-		m := reOuter.FindAllStringSubmatch(line, -1)
-		outer := m[0][1]
-		content := m[0][2]
-		m = reContent.FindAllStringSubmatch(content, -1)
+		match := reOuter.FindAllStringSubmatch(line, -1)
+		outer := match[0][1]
+		content := match[0][2]
+
+		match = reContent.FindAllStringSubmatch(content, -1)
 		res[outer] = make(map[string]int)
-		for _, x := range m {
-			n, _ := strconv.Atoi(x[1])
-			res[outer][x[2]] = n
+		for _, m := range match {
+			n, _ := strconv.Atoi(m[1])
+			res[outer][m[2]] = n
 		}
 	}
 
 	return res
 }
 
-func solveA(input tree, bag string) []string {
+func solveA(input tree, target string) []string {
 	candidates := make(map[string]bool)
 	for k, v := range input {
-		if _, ok := v[bag]; ok {
+		if _, ok := v[target]; ok {
 			candidates[k] = true
 		}
 	}
@@ -45,9 +47,9 @@ func solveA(input tree, bag string) []string {
 	return slices.Collect(maps.Keys(candidates))
 }
 
-func solveB(input tree, bag string) int {
+func solveB(input tree, target string) int {
 	res := 0
-	for k, v := range input[bag] {
+	for k, v := range input[target] {
 		res += v * (1 + solveB(input, k))
 	}
 
