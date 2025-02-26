@@ -8,6 +8,19 @@ func Sum(slice []int) int {
 	return result
 }
 
+func MinMax(slice []int) (int, int) {
+	min, max := slice[0], slice[0]
+	for _, x := range slice {
+		if x < min {
+			min = x
+		}
+		if x > max {
+			max = x
+		}
+	}
+	return min, max
+}
+
 func AbsInt(x int) int {
 	return AbsDiffInt(x, 0)
 }
