@@ -37,6 +37,30 @@ func TestCountNeighbors(t *testing.T) {
 	assert.Equal(t, 2, g.countOccupiedNeighbors(0, 0))
 }
 
+func TestCountVisible(t *testing.T) {
+	input := []string{
+		".......#.",
+		"...#.....",
+		".#.......",
+		".........",
+		"..#L....#",
+		"....#....",
+		".........",
+		"#........",
+		"...#.....",
+	}
+	g := parseInput(input)
+	assert.Equal(t, 8, g.countVisibleOccupiedNeighbors(4, 3))
+
+	input = []string{
+		".............",
+		".L.L.#.#.#.#.",
+		".............",
+	}
+	g = parseInput(input)
+	assert.Equal(t, 0, g.countVisibleOccupiedNeighbors(1, 1))
+}
+
 func TestStep(t *testing.T) {
 	input := parseInput(exampleInput)
 	expected := `
@@ -78,4 +102,12 @@ func TestSolveExampleA(t *testing.T) {
 
 func TestSolveA(t *testing.T) {
 	assert.Equal(t, 2283, solveA(parseInput(utils.LoadStrings("input.txt"))))
+}
+
+func TestSolveExampleB(t *testing.T) {
+	assert.Equal(t, 26, solveB(parseInput(exampleInput)))
+}
+
+func TestSolveB(t *testing.T) {
+	assert.Equal(t, 2054, solveB(parseInput(utils.LoadStrings("input.txt"))))
 }
