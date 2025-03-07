@@ -76,3 +76,41 @@ func solveA(input []instruction) int {
 	}
 	return mathutils.AbsInt(s.pos.l) + mathutils.AbsInt(s.pos.c)
 }
+
+func moveWaypoint(wp coord, ins instruction) coord {
+	switch ins.move {
+	case 'N':
+		return coord{wp.l - ins.amount, wp.c}
+	case 'S':
+		return coord{wp.l + ins.amount, wp.c}
+	case 'E':
+		return coord{wp.l, wp.c + ins.amount}
+	case 'W':
+		return coord{wp.l, wp.c - ins.amount}
+	case 'L':
+		return rotateWaypoint(wp, -ins.amount)
+	case 'R':
+		return rotateWaypoint(wp, ins.amount)
+	}
+	panic("unexpected move")
+}
+
+func rotateWaypoint(wp coord, angle int) coord {
+	for range 4 + (angle / 90) {
+		wp = coord{wp.c, -wp.l}
+	}
+	return wp
+}
+
+func solveB(input []instruction) int {
+	s := coord{0, 0}
+	wp := coord{-1, 10}
+	for _, ins := range input {
+		if ins.move == 'F' {
+			s = coord{s.l + wp.l*ins.amount, s.c + wp.c*ins.amount}
+		} else {
+			wp = moveWaypoint(wp, ins)
+		}
+	}
+	return mathutils.AbsInt(s.l) + mathutils.AbsInt(s.c)
+}
