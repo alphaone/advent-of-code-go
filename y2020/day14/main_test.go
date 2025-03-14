@@ -44,3 +44,44 @@ func TestSolveExampleA(t *testing.T) {
 func TestSolveA(t *testing.T) {
 	assert.Equal(t, 12610010960049, solveA(parse(utils.LoadStrings("input.txt"))))
 }
+
+func TestMaskAddressApply(t *testing.T) {
+	assert.Equal(t, []int{0b1}, mask("0").applyAddress(0b1))
+	assert.Equal(t, []int{0b1}, mask("1").applyAddress(0b0))
+	assert.Equal(t, []int{0b0}, mask("0").applyAddress(0b0))
+	assert.Equal(t, []int{0b0, 0b1}, mask("X").applyAddress(0b1))
+
+	assert.Equal(t, []int{0b11}, mask("00").applyAddress(0b11))
+	assert.Equal(t, []int{0b11}, mask("11").applyAddress(0b00))
+	assert.Equal(t, []int{0b11}, mask("01").applyAddress(0b10))
+	assert.Equal(t, []int{0b11}, mask("10").applyAddress(0b01))
+	assert.Equal(t, []int{0b01}, mask("00").applyAddress(0b01))
+	assert.Equal(t, []int{0b10}, mask("10").applyAddress(0b00))
+	assert.Equal(t, []int{0b10, 0b11}, mask("1X").applyAddress(0b00))
+	assert.Equal(t, []int{0b01, 0b11}, mask("X1").applyAddress(0b00))
+	assert.Equal(t, []int{0b00, 0b01, 0b10, 0b11}, mask("XX").applyAddress(0b00))
+
+	assert.Equal(t, []int{0b1111}, mask("1111").applyAddress(0b0101))
+	assert.Equal(t, []int{0b1101}, mask("1100").applyAddress(0b0101))
+	assert.Equal(t, []int{0b0101}, mask("0000").applyAddress(0b0101))
+
+	assert.Equal(t, []int{0b0100, 0b0101}, mask("000X").applyAddress(0b0101))
+	assert.Equal(t, []int{0b1100, 0b1101, 0b1110, 0b1111}, mask("11XX").applyAddress(0b0101))
+
+	assert.Equal(t, []int{26, 27, 58, 59}, mask("0X1001X").applyAddress(42))
+}
+
+var exampleB = []string{
+	"mask = 000000000000000000000000000000X1001X",
+	"mem[42] = 100",
+	"mask = 00000000000000000000000000000000X0XX",
+	"mem[26] = 1",
+}
+
+func TestSolveExampleB(t *testing.T) {
+	assert.Equal(t, 208, solveB(parse(exampleB)))
+}
+
+func TestSolveB(t *testing.T) {
+	assert.Equal(t, 3608464522781, solveB(parse(utils.LoadStrings("input.txt"))))
+}
