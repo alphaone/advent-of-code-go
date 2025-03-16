@@ -1,7 +1,6 @@
 package day15
 
 import (
-	"strconv"
 	"strings"
 	"testing"
 
@@ -30,13 +29,6 @@ func TestSolveExampleA(t *testing.T) {
 
 func TestSolveA(t *testing.T) {
 	input := strings.TrimSpace(utils.LoadString("input.txt"))
-	g := game{}
-	for _, x := range strings.Split(input, ",") {
-		i, err := strconv.Atoi(x)
-		if err != nil {
-			panic(err)
-		}
-		g = append(g, i)
-	}
+	g := parse(input)
 	assert.Equal(t, 870, g.play(2020))
 }

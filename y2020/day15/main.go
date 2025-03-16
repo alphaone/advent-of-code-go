@@ -1,8 +1,25 @@
 package day15
 
-import "github.com/alphaone/advent/utils/sliceutils"
+import (
+	"strconv"
+	"strings"
+
+	"github.com/alphaone/advent/utils/sliceutils"
+)
 
 type game []int
+
+func parse(input string) game {
+	g := game{}
+	for _, x := range strings.Split(input, ",") {
+		i, err := strconv.Atoi(x)
+		if err != nil {
+			panic(err)
+		}
+		g = append(g, i)
+	}
+	return g
+}
 
 func (g game) next() game {
 	last := g[len(g)-1]
