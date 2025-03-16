@@ -3,8 +3,6 @@ package day15
 import (
 	"strconv"
 	"strings"
-
-	"github.com/alphaone/advent/utils/sliceutils"
 )
 
 type game []int
@@ -21,20 +19,22 @@ func parse(input string) game {
 	return g
 }
 
-func (g game) next() game {
-	last := g[len(g)-1]
-
-	x := sliceutils.LastIndexFunc(g[:len(g)-1], func(x int) bool { return x == last })
-	if x == -1 {
-		return append(g, 0)
+func (g game) play(targetTurns int) int {
+	turnNumbers := map[int]int{}
+	for i, x := range g[:len(g)-1] {
+		turnNumbers[x] = i + 1
 	}
 
-	return append(g, len(g)-1-x)
-}
-
-func (g game) play(turns int) int {
-	for len(g) < turns {
-		g = g.next()
+	prev := g[len(g)-1]
+	for turn := len(g); turn < targetTurns; turn++ {
+		if lastSeen, ok := turnNumbers[prev]; ok {
+			turnNumbers[prev] = turn
+			prev = turn - lastSeen
+		} else {
+			turnNumbers[prev] = turn
+			prev = 0
+		}
 	}
-	return g[len(g)-1]
+
+	return prev
 }

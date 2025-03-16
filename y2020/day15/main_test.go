@@ -10,14 +10,10 @@ import (
 
 func TestNext(t *testing.T) {
 	g := game{0, 3, 6}
-	g = g.next()
-	assert.Equal(t, game{0, 3, 6, 0}, g)
-	g = g.next()
-	assert.Equal(t, game{0, 3, 6, 0, 3}, g)
-	g = g.next()
-	assert.Equal(t, game{0, 3, 6, 0, 3, 3}, g)
-	g = g.next()
-	assert.Equal(t, game{0, 3, 6, 0, 3, 3, 1}, g)
+	assert.Equal(t, 0, g.play(4))
+	assert.Equal(t, 3, g.play(5))
+	assert.Equal(t, 3, g.play(6))
+	assert.Equal(t, 1, g.play(7))
 }
 
 func TestSolveExampleA(t *testing.T) {
@@ -31,4 +27,15 @@ func TestSolveA(t *testing.T) {
 	input := strings.TrimSpace(utils.LoadString("input.txt"))
 	g := parse(input)
 	assert.Equal(t, 870, g.play(2020))
+}
+
+func TestSolveExampleB(t *testing.T) {
+	g := game([]int{0, 3, 6})
+	assert.Equal(t, 175594, g.play(30_000_000))
+}
+
+func TestSolveB(t *testing.T) {
+	input := strings.TrimSpace(utils.LoadString("input.txt"))
+	g := parse(input)
+	assert.Equal(t, 9136, g.play(30_000_000))
 }
